@@ -2,4 +2,7 @@
     <string name="app_name">Theatre</string>
     <string name="profile_description">Profile Image</string>
     <string name="search_movie">Search your movie</string>
+    <string name="categories">Categories</string>
+    <string name="popular">Popular</string>
+    <string name="see_more">See more</string>
 </resources>

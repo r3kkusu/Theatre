@@ -3,7 +3,9 @@ package com.theatre.app
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -12,11 +14,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.theatre.app.data.model.Category
 import com.theatre.app.ui.theme.*
 
 @Composable
@@ -25,6 +30,7 @@ fun HomeScreen() {
         HeaderUI()
         SearchUI()
         CategoriesUI()
+        PopularUI();
     }
 }
 
@@ -36,6 +42,7 @@ fun HeaderUI() {
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth()
+            .padding(bottom = 20.dp)
     ) {
         Text(
             text = "Hi, Rex!",
@@ -64,7 +71,7 @@ fun HeaderUI() {
 fun SearchUI() {
     val text = remember { mutableStateOf(TextFieldValue()) }
     Box(modifier = Modifier
-        .padding(top = 30.dp, bottom = 30.dp, start = 10.dp, end = 10.dp)
+        .padding(top = 20.dp, bottom = 20.dp, start = 10.dp, end = 10.dp)
         .height(50.dp)) {
 
         OutlinedTextField(
@@ -95,4 +102,61 @@ fun SearchUI() {
 @Composable
 fun CategoriesUI() {
 
+    val categories = listOf(
+        Category("Horror", "\uD83D\uDE31"),
+        Category("Romance", "\uD83E\uDD70"),
+        Category("Comedy", "\uD83E\uDD2A"),
+        Category("Drama", "\uD83E\uDD29"),
+    )
+
+    Column(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(text = stringResource(id = R.string.categories),
+                style = Typography.h2)
+            Text(text = stringResource(id = R.string.see_more),
+            style = Typography.body2)
+        }
+
+        Row (modifier = Modifier.padding(top = 10.dp)) {
+            categories.iterator().forEach {
+                CategoryCard(it)
+            }
+        }
+    }
+}
+
+@Composable
+fun CategoryCard(category: Category) {
+    Box(modifier = Modifier.padding(10.dp)
+        .clip(RoundedCornerShape(20.dp))
+        .clickable {  }) {
+        Box(modifier = Modifier
+            .alpha(0.08f)
+            .background(TextWhite)
+            .size(width = 70.dp, height = 85.dp)
+            .padding(10.dp))
+        Column(modifier = Modifier.align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(modifier = Modifier.padding(bottom = 10.dp), text = category.emoji, fontSize = 18.sp)
+            Text(text = category.name, fontSize = 12.sp)
+        }
+    }
+}
+
+@Composable
+fun PopularUI() {
+    Column(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(text = stringResource(id = R.string.popular),
+                style = Typography.h2)
+            Text(text = stringResource(id = R.string.see_more),
+                style = Typography.body2)
+        }
+    }
 }
