@@ -1,9 +1,6 @@
 package com.theatre.app
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -22,6 +19,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.theatre.app.data.model.Category
+import com.theatre.app.data.model.Movie
 import com.theatre.app.ui.theme.*
 
 @Composable
@@ -42,7 +40,7 @@ fun HeaderUI() {
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 20.dp)
+            .padding(top = 15.dp, start = 15.dp, end = 15.dp, bottom = 20.dp)
     ) {
         Text(
             text = "Hi, Rex!",
@@ -71,7 +69,7 @@ fun HeaderUI() {
 fun SearchUI() {
     val text = remember { mutableStateOf(TextFieldValue()) }
     Box(modifier = Modifier
-        .padding(top = 20.dp, bottom = 20.dp, start = 10.dp, end = 10.dp)
+        .padding(top = 20.dp, bottom = 20.dp, start = 25.dp, end = 25.dp)
         .height(50.dp)) {
 
         OutlinedTextField(
@@ -109,7 +107,7 @@ fun CategoriesUI() {
         Category("Drama", "\uD83E\uDD29"),
     )
 
-    Column(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)) {
+    Column(modifier = Modifier.padding(top = 20.dp, start = 15.dp, end = 15.dp, bottom = 20.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -130,9 +128,10 @@ fun CategoriesUI() {
 
 @Composable
 fun CategoryCard(category: Category) {
-    Box(modifier = Modifier.padding(10.dp)
+    Box(modifier = Modifier
+        .padding(10.dp)
         .clip(RoundedCornerShape(20.dp))
-        .clickable {  }) {
+        .clickable { }) {
         Box(modifier = Modifier
             .alpha(0.08f)
             .background(TextWhite)
@@ -148,15 +147,65 @@ fun CategoryCard(category: Category) {
 
 @Composable
 fun PopularUI() {
-    Column(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)) {
+
+    val movies = listOf<Movie>(
+        Movie(R.drawable.mp_after, "After", 3.2f),
+        Movie(R.drawable.mp_the_astronaut, "The Astronaut", 4f),
+        Movie(R.drawable.mp_the_green_girl, "The Green Girl", 4.5f),
+        Movie(R.drawable.mp_origin, "Origin", 2f),
+    )
+
+    Column(modifier = Modifier.padding(bottom = 20.dp)) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 15.dp, end = 15.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = stringResource(id = R.string.popular),
                 style = Typography.h2)
             Text(text = stringResource(id = R.string.see_more),
                 style = Typography.body2)
+        }
+
+        LazyRow {
+            items(movies.size) {
+                PopularMovie(movies[it])
+            }
+        }
+    }
+}
+
+@Composable
+fun PopularMovie(movie: Movie) {
+
+    var counter = 0f;
+
+    Column(modifier = Modifier.padding(10.dp)) {
+        Image(modifier = Modifier
+            .padding(top = 10.dp)
+            .size(176.dp, 264.dp)
+            .clip(RoundedCornerShape(40.dp)),
+            painter = painterResource(id = movie.resource),
+            contentDescription = movie.title)
+        Column(modifier = Modifier.padding(top = 10.dp, start = 5.dp, end = 5.dp)) {
+            Text(text = movie.title, style = Typography.h2)
+            Row(modifier = Modifier.padding(top = 5.dp)) {
+                while (++counter < 6) {
+
+                    var resource = R.drawable.ic_baseline_star_24
+                    var difference = counter - movie.rating;
+                    if (difference > 0) {
+                        resource = if (difference > 0 && difference < 1)
+                            R.drawable.ic_baseline_star_half_24
+                        else R.drawable.ic_baseline_star_outline_24
+                    }
+
+                    Icon(painter = painterResource(id = resource),
+                        contentDescription = "",
+                        tint = DulOrange)
+                }
+            }
         }
     }
 }

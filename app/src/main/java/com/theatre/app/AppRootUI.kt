@@ -13,8 +13,7 @@ import com.theatre.app.ui.theme.DeepBlue
 fun AppRootUI() {
     Box(modifier = Modifier
         .background(DeepBlue)
-        .fillMaxSize()
-        .padding(15.dp)) {
+        .fillMaxSize()) {
         HomeScreen()
     }
 }
