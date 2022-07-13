@@ -44,5 +44,11 @@ val Typography = Typography(
         fontFamily = larsseit,
         fontWeight = FontWeight.Bold,
         fontSize = 18.sp
+    ),
+    h3 = TextStyle(
+        color = TextWhite,
+        fontFamily = larsseit,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp
     )
 )

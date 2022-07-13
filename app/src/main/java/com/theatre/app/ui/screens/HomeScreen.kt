@@ -1,6 +1,8 @@
 package com.theatre.app
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -24,7 +26,10 @@ import com.theatre.app.ui.theme.*
 
 @Composable
 fun HomeScreen() {
-    Column() {
+    Column(
+        modifier = Modifier.scrollable(rememberScrollState(),
+        orientation = Orientation.Vertical)
+    ) {
         HeaderUI()
         SearchUI()
         CategoriesUI()
@@ -40,7 +45,7 @@ fun HeaderUI() {
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 15.dp, start = 15.dp, end = 15.dp, bottom = 20.dp)
+            .padding(top = 15.dp, start = 15.dp, end = 15.dp, bottom = 10.dp)
     ) {
         Text(
             text = "Hi, Rex!",
@@ -69,7 +74,7 @@ fun HeaderUI() {
 fun SearchUI() {
     val text = remember { mutableStateOf(TextFieldValue()) }
     Box(modifier = Modifier
-        .padding(top = 20.dp, bottom = 20.dp, start = 25.dp, end = 25.dp)
+        .padding(top = 10.dp, bottom = 10.dp, start = 25.dp, end = 25.dp)
         .height(50.dp)) {
 
         OutlinedTextField(
@@ -189,7 +194,7 @@ fun PopularMovie(movie: Movie) {
             painter = painterResource(id = movie.resource),
             contentDescription = movie.title)
         Column(modifier = Modifier.padding(top = 10.dp, start = 5.dp, end = 5.dp)) {
-            Text(text = movie.title, style = Typography.h2)
+            Text(text = movie.title, style = Typography.h3)
             Row(modifier = Modifier.padding(top = 5.dp)) {
                 while (++counter < 6) {
 

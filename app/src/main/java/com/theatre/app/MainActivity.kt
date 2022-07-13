@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TheatreTheme {
-                AppRootUI()
+                TheatreApp()
             }
         }
     }
@@ -22,6 +22,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     TheatreTheme {
-        AppRootUI()
+        TheatreApp()
     }
 }
